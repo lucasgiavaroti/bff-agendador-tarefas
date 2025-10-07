@@ -37,13 +37,15 @@ public class CronService {
         LocalDateTime horaFutura =  LocalDateTime.now().plusHours(1);
         LocalDateTime horaFuturaMaisCinco = LocalDateTime.now().plusHours(1).plusMinutes(5);
 
+        log.info("Buscando tarefas agendadas para a hora: " + horaFutura);
+        log.info("Hora futura mais cinco: " + horaFuturaMaisCinco);
+
         List<TarefaDTO> listaTarefas =  tarefaService.buscaTarefasAgendadasPorPeriodo(horaFutura, horaFuturaMaisCinco, token);
         log.info("Quantidade de tarefas encontradas: " + listaTarefas.size());
-        log.info("Tarefas encontradas: " + listaTarefas);
 
         listaTarefas.forEach(tarefa -> {
             notificacaoService.enviarEmail(getEmailRequest(tarefa));
-            log.info("Email enviado para o usuário: " + tarefa.getEmailUsuario() + "");
+            log.info("Email enviado para o usuario: " + tarefa.getEmailUsuario() + "");
             tarefaService.alterarStatus(StatusNotificacaoEnum.NOTIFICADO, tarefa.getId(), token);
             log.info("Status da tarefa alterado para: " + StatusNotificacaoEnum.NOTIFICADO);
         });

@@ -5,10 +5,7 @@ import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.EnderecoRequestD
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.LoginRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.TelefoneRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.UsuarioRequestDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.EnderecoDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.LoginDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.TelefoneDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.UsuarioDTO;
+import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.*;
 import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -114,6 +111,16 @@ public class UsuarioController {
     @ApiResponse(responseCode = "500", description = "Erro interno de servidor")
     public ResponseEntity<TelefoneDTO> cadastraTelefone(@RequestBody TelefoneRequestDTO dto, @RequestHeader(name = "Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.cadastraTelefone(token, dto));
+    }
+
+
+    @GetMapping("/endereco/{cep}")
+    @Operation(summary = "Buscar dados do endereço",description = "Busca os dados de um endereço dado um CEP")
+    @ApiResponse(responseCode = "200", description = "Endereço encontrado com sucesso")
+    @ApiResponse(responseCode = "400", description = "CEP mal-formatado")
+    @ApiResponse(responseCode = "500", description = "Erro interno de servidor")
+    public ResponseEntity<ViaCepDTO> buscarDadosEndereco(@PathVariable("cep") String cep){
+        return ResponseEntity.ok(usuarioService.buscaEnderecoPorCep(cep));
     }
 
 }

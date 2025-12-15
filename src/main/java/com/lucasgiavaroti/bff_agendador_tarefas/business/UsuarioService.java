@@ -4,10 +4,7 @@ import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.EnderecoRequestD
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.LoginRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.TelefoneRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.UsuarioRequestDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.EnderecoDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.LoginDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.TelefoneDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.UsuarioDTO;
+import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.*;
 import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.client.UsuarioClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,6 +45,10 @@ public class UsuarioService {
 
     public TelefoneDTO cadastraTelefone(String token, TelefoneRequestDTO dto){
         return usuarioClient.cadastraTelefone(dto, token);
+    }
+
+    public ViaCepDTO buscaEnderecoPorCep(String cep){
+        return usuarioClient.buscaEnderecoPorCep(cep);
     }
 
     public LoginDTO loginUsuario(LoginRequestDTO usuarioDTO){

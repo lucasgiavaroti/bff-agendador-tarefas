@@ -1,9 +1,7 @@
 package com.lucasgiavaroti.bff_agendador_tarefas.controller;
 
-import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.BusinessException;
-import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.ConflictException;
-import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.NotFoundException;
-import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.UnauthorizedException;
+import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.*;
+import com.lucasgiavaroti.bff_agendador_tarefas.infrastructure.exceptions.IllegalArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,6 +28,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusinessException(BusinessException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -4,10 +4,7 @@ import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.EnderecoRequestD
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.LoginRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.TelefoneRequestDTO;
 import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.in.UsuarioRequestDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.EnderecoDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.LoginDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.TelefoneDTO;
-import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.UsuarioDTO;
+import com.lucasgiavaroti.bff_agendador_tarefas.business.dto.out.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +37,8 @@ public interface UsuarioClient {
 
     @PostMapping("/telefone")
     TelefoneDTO cadastraTelefone(@RequestBody TelefoneRequestDTO dto, @RequestHeader( "Authorization") String token);
+
+    @GetMapping("/endereco/{cep}")
+    ViaCepDTO buscaEnderecoPorCep(@PathVariable("cep") String cep);
 
 }

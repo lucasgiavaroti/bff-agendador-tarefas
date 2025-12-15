@@ -7,32 +7,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleNotFoundException(NotFoundException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<TypeError> handleNotFoundException(NotFoundException ex){
+        TypeError typeError = new TypeError(404, "Recurso não encontrado", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(typeError, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<String> handleConflictException(ConflictException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<TypeError> handleConflictException(ConflictException ex){
+        TypeError typeError = new TypeError(409, "Recurso com conflito", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(typeError, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<TypeError> handleUnauthorizedException(UnauthorizedException ex){
+        TypeError typeError = new TypeError(401, "Não autorizado", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(typeError, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handleBusinessException(BusinessException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<TypeError> handleBusinessException(BusinessException ex){
+        TypeError typeError = new TypeError(500, "Erro interno de servidor", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(typeError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<TypeError> handleIllegalArgumentException(IllegalArgumentException ex){
+        TypeError typeError = new TypeError(400, "Requisição mal-formatada", ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(typeError, HttpStatus.BAD_REQUEST);
     }
 
 }

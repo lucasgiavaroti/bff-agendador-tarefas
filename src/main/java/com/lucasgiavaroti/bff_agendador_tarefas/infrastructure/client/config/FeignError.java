@@ -18,17 +18,19 @@ public class FeignError implements ErrorDecoder {
 
         String mensagemErro = mensagemErro(response);
 
+        String erro = "Erro: ";
+
         switch (response.status()) {
             case 409 :
-                return new ConflictException("Erro: " + mensagemErro);
+                return new ConflictException(erro + mensagemErro);
             case 404 :
-                return new NotFoundException("Erro: " + mensagemErro);
+                return new NotFoundException(erro + mensagemErro);
             case 401 :
-                return new UnauthorizedException("Erro: " + mensagemErro);
+                return new UnauthorizedException(erro + mensagemErro);
             case 400 :
-                return new IllegalArgumentException("Erro: " + mensagemErro);
+                return new IllegalArgumentException(erro + mensagemErro);
             default:
-                return new BusinessException("Erro: " + mensagemErro);
+                return new BusinessException(erro + mensagemErro);
         }
     }
 
@@ -39,7 +41,7 @@ public class FeignError implements ErrorDecoder {
             }
             return new String(response.body().asInputStream().readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new BusinessException(e.getMessage());
         }
     }
 }
